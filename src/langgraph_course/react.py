@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 
 from langchain_core.tools import tool
-from langchain_ollama import Ollama
-from langchain_tavily import Tavily
+from langchain_ollama import ChatOllama
+from langchain_tavily import TavilySearch
 
 load_dotenv()
 
@@ -13,9 +13,9 @@ def triple(number: float) -> float:
     """
     return float(number) * 3
 
-tools = [Tavily(max_results = 1), triple]
+tools = [TavilySearch(max_results = 1), triple]
 
-llm = Ollama(
+llm = ChatOllama(
     model = "qwen3:1.7b",
     temperature = 0,
     tools = tools

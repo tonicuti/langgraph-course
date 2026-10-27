@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="780" viewBox="0 0 1280 780" role="img" aria-labelledby="title description">
+  <title id="title">Reasoning Agent with ReAct tool loop</title>
+  <desc id="description">A user message and the system prompt enter the Ollama Qwen3 model through the reasoning node. The model either returns a final answer or calls Tavily or the triple tool. Tool results return to the conversation for another reasoning turn. The loop is conceptual because no graph wiring is defined in the repository.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#506078" />
+    </marker>
+    <marker id="arrow-teal" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#168b83" />
+    </marker>
+    <style>
+      text { font-family: Inter, Segoe UI, Arial, sans-serif; fill: #1f2937; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 15px; fill: #526176; }
+      .heading { font-size: 17px; font-weight: 700; }
+      .body { font-size: 14px; }
+      .small { font-size: 12px; fill: #526176; }
+      .mono { font-family: Consolas, monospace; font-size: 12px; }
+      .edge { fill: none; stroke: #506078; stroke-width: 2.2; marker-end: url(#arrow); }
+      .loop { fill: none; stroke: #168b83; stroke-width: 2.6; marker-end: url(#arrow-teal); }
+    </style>
+  </defs>
+
+  <rect width="1280" height="780" fill="#f7f8fa" />
+  <text x="56" y="58" class="title">Reasoning Agent · ReAct tool loop</text>
+  <text x="56" y="87" class="subtitle">Prompt assembly, model decision, and tool execution in the current source</text>
+
+  <!-- User and shared conversation state -->
+  <rect x="56" y="284" width="170" height="100" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+  <text x="78" y="317" class="heading">User</text>
+  <text x="78" y="344" class="body">Sends a question</text>
+  <text x="78" y="366" class="small">initial message</text>
+
+  <rect x="274" y="250" width="220" height="168" rx="14" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1.5" />
+  <text x="296" y="282" class="heading">Message state</text>
+  <text x="296" y="311" class="body">Conversation history</text>
+  <text x="296" y="337" class="body">User message + tool results</text>
+  <text x="296" y="382" class="mono">state["messages"]</text>
+
+  <!-- Reasoning node and prompt -->
+  <rect x="542" y="220" width="250" height="228" rx="16" fill="#fff7ed" stroke="#fdba74" stroke-width="1.7" />
+  <text x="566" y="253" class="heading">Reasoning node</text>
+  <text x="566" y="280" class="mono">run_agent_reasoning</text>
+  <line x1="566" y1="297" x2="768" y2="297" stroke="#fed7aa" />
+  <text x="566" y="324" class="body" font-weight="700">System prompt</text>
+  <text x="566" y="349" class="body">“Helpful assistant that can</text>
+  <text x="566" y="370" class="body">use tools to answer questions.”</text>
+  <text x="566" y="414" class="small">prepends prompt to messages</text>
+
+  <!-- Model -->
+  <rect x="842" y="250" width="190" height="168" rx="16" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.7" />
+  <text x="866" y="282" class="heading">Ollama LLM</text>
+  <text x="866" y="313" class="body">qwen3:1.7b</text>
+  <text x="866" y="340" class="body">temperature = 0</text>
+  <text x="866" y="382" class="small">bound tools available</text>
+
+  <!-- Response choice -->
+  <polygon points="1097,334 1160,274 1223,334 1160,394" fill="#fef9c3" stroke="#eab308" stroke-width="1.7" />
+  <text x="1160" y="329" text-anchor="middle" class="body" font-weight="700">Tool</text>
+  <text x="1160" y="349" text-anchor="middle" class="body" font-weight="700">call?</text>
+
+  <rect x="1070" y="112" width="180" height="82" rx="14" fill="#ecfccb" stroke="#a3e635" stroke-width="1.5" />
+  <text x="1092" y="145" class="heading">Final answer</text>
+  <text x="1092" y="171" class="body">returned to user</text>
+
+  <!-- Tool executor and tools -->
+  <rect x="870" y="520" width="230" height="96" rx="14" fill="#f3e8ff" stroke="#c084fc" stroke-width="1.5" />
+  <text x="894" y="553" class="heading">ToolNode</text>
+  <text x="894" y="580" class="body">executes requested tool</text>
+  <text x="894" y="601" class="small">tools = [Tavily, triple]</text>
+
+  <rect x="590" y="540" width="210" height="76" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+  <text x="610" y="570" class="heading">Tavily</text>
+  <text x="610" y="594" class="small">max_results = 1 · web search</text>
+
+  <rect x="590" y="646" width="210" height="76" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+  <text x="610" y="676" class="heading">triple(number)</text>
+  <text x="610" y="700" class="small">returns number × 3</text>
+
+  <!-- Edges -->
+  <path d="M226 334 H274" class="edge" />
+  <path d="M494 334 H542" class="edge" />
+  <path d="M792 334 H842" class="edge" />
+  <text x="802" y="319" class="small">prompt + history</text>
+  <path d="M1032 334 H1092" class="edge" />
+  <path d="M1160 274 V194" class="edge" />
+  <text x="1173" y="233" class="small">no</text>
+  <path d="M1070 153 H250 V284" class="edge" />
+  <path d="M1160 394 V466 H985 V520" class="edge" />
+  <text x="1173" y="433" class="small">yes</text>
+  <path d="M870 568 H800" class="edge" />
+  <path d="M870 590 H835 V684 H800" class="edge" />
+  <path d="M590 578 H520 V334 H494" class="loop" />
+  <path d="M590 684 H520 V334 H494" class="loop" />
+  <text x="280" y="482" class="small" fill="#168b83">tool result appended to messages</text>
+
+  <!-- Conceptual routing note -->
+  <rect x="56" y="676" width="470" height="58" rx="10" fill="#fff" stroke="#d8dee8" />
+  <text x="74" y="700" class="small" font-weight="700">Routing note</text>
+  <text x="74" y="720" class="small">ReAct-style loop is conceptual; graph edges are not defined in source yet.</text>
+</svg>
